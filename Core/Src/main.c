@@ -167,11 +167,13 @@ int main(void)
   char result3[20] = "8";//gear
   char result4[20] = "null"; //battery volt
   char result5[20] = "null"; //speed
+  char result6[20] = "null";
   settempdata(result2);
   setgeardata(result3);
   setrpmdata(result);
   setbattdata(result4);
   setspeeddata(result5);
+  setoilpressuredata(result6);
   domainscreen();
 
   struct can_frame frame;
@@ -218,7 +220,7 @@ int main(void)
 					  setgeardata(result3);
 				  }
 			  }
-			  if (frame.can_id == (1520 + 3)) {
+			  if (frame.can_id == 1520 + 3) {
 				  uint8_t battvalue = (((uint16_t)frame.data[2]) << 8) + frame.data[3];
 				  uint8_t batIntPart = battvalue / 10;
 				  uint8_t batDecimalPart = battvalue % 10;
@@ -250,6 +252,14 @@ int main(void)
 				  speed /= 10;
 				  itoa(speed, (char*) result5, 10);
 				  setspeeddata(result5);
+			  }
+			  if (frame.can_id == (1520 + 13)) {
+				  uint16_t oilpressure = (((uint16_t)frame.data[2] << 8) | (frame.data[3]));
+				  //float voltage = (oilpressure / 4096.0f) * 5;
+				  //oilpressure = -18.1f + (voltage * 36.24f);
+				  oilpressure /= 10;
+				  itoa(oilpressure, (char*) result6, 10);
+				  setoilpressuredata(result6);
 			  }
 		  }
 	/*

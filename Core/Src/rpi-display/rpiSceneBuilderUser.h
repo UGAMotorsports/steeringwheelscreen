@@ -18,6 +18,7 @@ extern "C" {
 	void setgeardata(char *gearvalue);
 	void setbattdata(char *battvalue);
 	void setspeeddata(char *speedvalue);
+	void setoilpressuredata(char *oilpressurevalue);
 	void dosplashscene();
 #ifdef __cplusplus
 }

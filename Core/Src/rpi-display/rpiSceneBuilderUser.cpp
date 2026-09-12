@@ -20,11 +20,13 @@ char tempresult[18] = "";
 char speedresult[20] = "";
 char gearresult[20] = "8";
 char battresult[20] = "";
+char oilpressureresult[20] = "";
 char tempicon[3] = " ";
 char batticon[3] = "\"";
 char rpmicon[3] = "#";
 char speedicon[3] = "%";
-DisplayObject* otherobjects[10] = {
+char oilpressurelabel[10] = "OP";
+DisplayObject* otherobjects[12] = {
 		new StringObject(200, 260, 0xFFFF, FREE_MONO_BOLD_24PT7B, NO_CENTER_OBJECT, rpmresult, 1),
 		new StringObject(350, 100, 0xFFFF, FREE_SANS_18PT7B, CENTER_OBJECT, tempresult, 3),
 		new StringObject(350, 60, 0xFFFF, FREE_SANS_18PT7B, CENTER_OBJECT, battresult, 6),
@@ -34,7 +36,9 @@ DisplayObject* otherobjects[10] = {
 		new StringObject(375, 185, 0xFFFF, FREE_SANS_18PT7B, LEFTDRAW_OBJECT, speedresult, 7),
 		new StringObject(440, 288, 0xFFFF, ICONFONT, LEFTDRAW_OBJECT, rpmicon, 8),
 		new OutlineRectObject(190, 250, 260, 55, 0xFFFF, NO_CENTER_OBJECT, 9),
-		new StringObject(405, 210, 0xFFFF, ICONFONT, CENTER_OBJECT, speedicon, 10)
+		new StringObject(405, 210, 0xFFFF, ICONFONT, CENTER_OBJECT, speedicon, 10),
+		new StringObject(410, 145, 0xFFFF, FREE_SANS_18PT7B, CENTER_OBJECT, oilpressurelabel, 11),
+		new StringObject(340, 145, 0xFFFF, FREE_SANS_18PT7B, CENTER_OBJECT, oilpressureresult, 12)
 };
 Scene myScene2(otherobjects, 6);
 
@@ -75,9 +79,15 @@ void setspeeddata(char *speedvalue) {
 	((StringObject*)otherobjects[6])->updateString(speedresult, LEFTDRAW_OBJECT, 0xFFFF, FREE_SANS_18PT7B, 375, 185, 7);
 }
 
+void setoilpressuredata(char *oilpressurevalue) {
+	strncpy(oilpressureresult, "", 10);
+	strncat(oilpressureresult, oilpressurevalue, 10);
+	((StringObject*)otherobjects[11])->updateString(oilpressureresult, CENTER_OBJECT, 0xFFFF, FREE_SANS_18PT7B, 350, 145, 12);
+}
+
 void domainscreen() {
 	myScene2.drawScene();
-	myScene2.setScene(otherobjects, 10);
+	myScene2.setScene(otherobjects, 12);
 }
 
 void dosplashscene() {
